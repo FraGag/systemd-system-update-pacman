@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# Remove /system-update first, to avoid reboot loops.
+rm -f /system-update
+
+# Perform the system update using Pacman.
+/usr/bin/pacman -Su --noconfirm
+
+# Reboot the system.
+/usr/bin/systemctl reboot

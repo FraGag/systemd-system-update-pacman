@@ -1,0 +1,3 @@
+#!/bin/sh
+> /system-update
+[ -e /system-update ] && echo "A system update has been scheduled for the next reboot."

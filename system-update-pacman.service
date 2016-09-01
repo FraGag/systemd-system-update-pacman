@@ -1,0 +1,6 @@
+[Unit]
+Description=Install system updates using pacman
+OnFailure=reboot.target
+
+[Service]
+ExecStart=/usr/lib/systemd-system-update-pacman/perform-system-update
