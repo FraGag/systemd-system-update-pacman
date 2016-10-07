@@ -4,7 +4,7 @@
 rm -f /system-update
 
 # Perform the system update using Pacman.
-/usr/bin/pacman -Su --noconfirm
+/usr/bin/pacman -Su --noconfirm > /dev/tty1 2>&1
 
 # Reboot the system.
 /usr/bin/systemctl reboot
