@@ -1,6 +1,39 @@
+# Some of the configuration in this unit was copied from:
+#
+# https://github.com/rpm-software-management/dnf-plugins-extras/blob/master/etc/systemd/dnf-system-upgrade.service
+
 [Unit]
 Description=Install system updates using pacman
-OnFailure=reboot.target
+DefaultDependencies=no
+
+Requires=sysinit.target
+After=sysinit.target systemd-journald.socket
+Before=shutdown.target system-update.target
+
+# `system-update.target` wants `system-update-cleanup.service`.
+# `system-update-cleanup.service` removes `/system-update`
+# and reboots the system.
+# `system-update-cleanup.service` was added in systemd 233.
+#
+# Since we're not running as a oneshot service (see below),
+# that service would start before the system update is complete.
+# Fortunately, the dependency is a `Wants`, not a `Requires`,
+# so we can use a `Conflicts` here
+# to prevent `system-update-cleanup.service` from running.
+Conflicts=system-update-cleanup.service
 
 [Service]
+# This unit is set up as a `simple` service.
+# If it was set up as a `oneshot` service,
+# then systemd would output "A start job is running for ..." messages
+# through pacman's output.
+Type=simple
+
+# The command that performs the actual system update.
 ExecStart=/usr/lib/systemd-system-update-pacman/perform-system-update
+
+# Remove the symlink if it's still there, to protect against reboot loops.
+ExecStopPost=/usr/bin/rm -fv /system-update
+
+# If anything goes wrong, reboot back to the normal system.
+FailureAction=reboot

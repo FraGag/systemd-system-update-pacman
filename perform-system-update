@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Remove /system-update first, to avoid reboot loops.
-rm -f /system-update
+/usr/bin/rm -fv /system-update
 
 # Perform the system update using Pacman.
 /usr/bin/pacman -Su --noconfirm --color=auto > /dev/tty1 2>&1

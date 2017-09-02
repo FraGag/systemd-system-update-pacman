@@ -9,12 +9,15 @@ you must be using a Linux-based distribution
 using pacman as a package manager
 and systemd running as init (PID 1).
 
+[pacman]: https://www.archlinux.org/pacman/
+[systemd]: https://www.freedesktop.org/wiki/Software/systemd/
+
 ## Usage
 
 Typical usage looks like this:
 
-* Synchronize pacman's database: `pacman -Sy`
-* Optionally, download the updated packages in advance: `pacman -Suw`
+* Synchronize pacman's database: `sudo pacman -Sy`
+* Optionally, download the updated packages in advance: `sudo pacman -Suw`
 * Schedule a system update: `sudo schedule-system-update`
 * Reboot
 
@@ -45,6 +48,3 @@ then runs `pacman -Su --no-confirm` to update the system.
 Note that this does *not* pass the `-y` flag to sync the database.
 You should sync the database and review the updates
 before performing a system update.
-
-[pacman]: https://www.archlinux.org/pacman/
-[systemd]: https://www.freedesktop.org/wiki/Software/systemd/
